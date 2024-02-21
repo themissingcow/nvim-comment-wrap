@@ -171,7 +171,6 @@ local function apply_opts(opts)
 			end
 		end
 	end
-	vim.print(vim.o.formatoptions)
 end
 
 -- Generates a user-visible status string that (briefly) describes the
