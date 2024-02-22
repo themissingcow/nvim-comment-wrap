@@ -1,7 +1,8 @@
 --- nvim-comment-wrap
 --- SPDX-License-Identifier: MIT
 --
--- Automatically adapt your line wrapping settings when writing comments.
+-- Automatically adapt your line wrapping settings when writing
+-- comments.
 
 local M = {}
 
@@ -40,8 +41,8 @@ function M.utils.is_generic_comment(node)
 end
 
 -- Returns whether the treesitter query captures the specified node, the
--- lookup is constrained to the current line. Returns nil in the case of a
--- treesitter failure.
+-- lookup is constrained to the current line. Returns nil in the case of
+-- a treesitter failure.
 function M.utils.ts_query_contains_node(query_str, node, bufnr)
 	local parser = vim.treesitter.get_parser(bufnr)
 
@@ -68,9 +69,9 @@ end
 
 -- Matchers --
 --
--- A matcher determines whether the supplied TreeSitter node is considered
--- to be a comment. They should return true or false, and nil in the case
--- of incase of any miscelaneous treesitter failues.
+-- A matcher determines whether the supplied TreeSitter node is
+-- considered to be a comment. They should return true or false, and nil
+-- in the case of incase of any miscelaneous treesitter failues.
 
 M.matchers = {}
 
@@ -145,10 +146,10 @@ local function restore_opts()
 	vim.bo.comments = prev.com
 end
 
--- Applies options managed by the plugin using the supplied values. These
--- values should be obtained from get_config_opts_for_* methods. The
--- layout is expected to match that of the *_opts keys in the default_opts
--- table.
+-- Applies options managed by the plugin using the supplied values.
+-- These values should be obtained from get_config_opts_for_* methods.
+-- The layout is expected to match that of the *_opts keys in the
+-- default_opts table.
 local function apply_opts(opts)
 	vim.bo.textwidth = opts.textwidth
 
@@ -298,9 +299,10 @@ end
 
 -- Public interface
 
--- Useful for including in status lines etc... contains a wrap icon, with
--- the current text width setting when the plugin has modified wrapping
--- mode due to the cursor being inside a comment. Empty at other times.
+-- Useful for including in status lines etc... contains a wrap icon,
+-- with the current text width setting when the plugin has modified
+-- wrapping mode due to the cursor being inside a comment. Empty at
+-- other times.
 M.status = ""
 
 -- The default configuration for the plugin
@@ -310,7 +312,7 @@ M.default_opts = {
 		toggle_paragraph_wrap = "<C-k>",
 	},
 	comment_opts = {
-		textwidth = 74,
+		textwidth = 72,
 		formatoptions = {
 			add = "tnjwrcaq",
 			remove = "l",
@@ -325,9 +327,10 @@ M.default_opts = {
 		},
 	},
 	global_opts = {
-		-- options as per coment_opts, but applied when a file is opened,
-		-- this is a convenient way to override what the ft plugin sets,
-		-- which otherwise requires autocmds, or additional files on disk.
+		-- options as per coment_opts, but applied when a file is
+		-- opened, this is a convenient way to override what the ft
+		-- plugin sets, which otherwise requires autocmds, or additional
+		-- files on disk.
 		filetype = {},
 	},
 }
@@ -339,8 +342,8 @@ M.setup = function(opts)
 	M.enable()
 end
 
--- Enables option management, called automatically by setup, wil register
--- key shortcuts and event handlers.
+-- Enables option management, called automatically by setup, will
+-- register key shortcuts and event handlers.
 M.enable = function()
 	if enabled then
 		return
@@ -368,8 +371,8 @@ M.disable = function()
 	enabled = false
 end
 
--- Returns whether the cursor is currently within a comment in the current
--- buffer, or nil in the case of any treesitter errors.
+-- Returns whether the cursor is currently within a comment in the
+-- current buffer, or nil in the case of any treesitter errors.
 M.in_comment = function()
 	local buf = vim.api.nvim_get_current_buf()
 	local ok, parser = pcall(vim.treesitter.get_parser, buf)
@@ -379,7 +382,8 @@ M.in_comment = function()
 
 	-- When the cursor is at the end of a line in insert mode, get_node
 	-- will return the parent scope (eg, block, etc...). Lookup the
-	-- position just before the cursor to make sure we catch the comment.
+	-- position just before the cursor to make sure we catch the
+	-- comment.
 	local row, col = M.utils.get_cursor()
 	local prev_col = math.max(0, col - 1)
 	local node = parser:named_node_for_range({ row, prev_col, row, prev_col })
@@ -392,8 +396,8 @@ M.in_comment = function()
 end
 
 -- Toggle the 'w' formatoption, which allows writing simple multi-line
--- lists etc... when 'r' is also set, at the expense of not reflowing the
--- whole paragraph when editing earlier lines.
+-- lists etc... when 'r' is also set, at the expense of not reflowing
+-- the whole paragraph when editing earlier lines.
 M.toggle_paragraph_wrap = function()
 	-- Note: needs to support:
 	--  - M.opts.formatoptions = ""
