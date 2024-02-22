@@ -5,12 +5,12 @@ settings when you are typing a code comment.
 
 ## Why
 
-70-80 characters is generally suggested as the preferred width for Human
+70–80 characters is generally suggested as the preferred width for Human
 readable text. Many codebases limit comments to this width to help make
 them more legible, whilst allowing longer lines for the code itself.
 
 Neovim's text wrap settings generally apply to the whole buffer, with
-this plugin (which uses Tree-sitter_, you can specify different settings
+this plugin (which uses Tree-sitter), you can specify different settings
 when the cursor is inside a comment block.
 
 ## Usage
@@ -35,7 +35,7 @@ toggle `w` in `formatoptions` from normal or insert mode.
 
 ## Install
 
-Install using your favorite package manager, eg Lazy:
+Install using your favorite package manager, e.g. Lazy:
 
 ```lua
 {
